@@ -1,0 +1,23 @@
+.custom-close-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1050;
+}
+
+.custom-close-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: black;
+  padding: 0;
+  line-height: 1;
+}
+
+.custom-close-button:hover,
+.custom-close-button:focus {
+  background-color: transparent;
+  color: black;
+  outline: none;
+  box-shadow: none;
+}

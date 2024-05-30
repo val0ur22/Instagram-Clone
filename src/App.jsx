@@ -1,12 +1,13 @@
+import React, { createContext, useState } from "react";
 import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 import IconButton from "./components/IconButton";
 import { Avatar } from "@mui/material";
 import ProfileHeader from "./components/ProfileHeader";
-import { createContext, useState } from "react";
-import { PROFILE_DATA } from "/data";
+import { PROFILE_DATA } from "../data.js";
 import ImageGrid from "./components/ImageGrid";
 import ImageList from "./components/ImageList";
 import AddPostModal from "./components/AddPostModal";
+import PostDetailModal from "./components/PostDetailModal";
 import "./App.css";
 
 export const ProfileContext = createContext(null);
@@ -77,7 +78,6 @@ export default function App() {
 
             <ImageList />
 
-
             <div style={{ position: "relative", borderTop: "1px solid lightgrey" }}>
               <div
                 style={{
@@ -133,6 +133,7 @@ export default function App() {
           </Container>
         </Col>
       </Row>
+      <PostDetailModal show={showModal} handleClose={closeModal} commenterImage="/woman.png" />
     </ProfileContext.Provider>
   );
 }

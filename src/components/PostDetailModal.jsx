@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Button, Modal, Image, ListGroup, Form, Col, Row } from "react-bootstrap";
+import { Modal, Image, ListGroup, Form, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addComment } from "../features/posts/postsSlice";
 import { ProfileContext } from "../App";
@@ -12,48 +12,60 @@ const PostDetailModal = ({ show, handleClose, post }) => {
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     if (comment) {
-      dispatch(addComment({ postId: post.id, comment }));
+      dispatch(addComment({ postId: post.id, text: comment, image: "/woman.png" }));
       setComment("");
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleCommentSubmit(e);
     }
   };
 
   return (
     <Modal show={show} onHide={handleClose} size="lg" style={{ maxWidth: '90vw', width: '100%' }}>
-      <Modal.Header closeButton>
+      <div className="custom-close-container">
+        <button className="custom-close-button" onClick={handleClose}>&times;</button>
+      </div>
+
+      <Modal.Header>
         <Row className="w-100">
           <Col sm={8}>
-            <Image src={post.image} fluid />
+            <Image src={post?.image} fluid />
           </Col>
           <Col sm={4}>
             <div className="mb-2">
-              
               <div className="d-flex justify-content-start align-items-center">
-                <Image
-                  src={image}
-                  alt="uploader"
-                  style={{ width: "32px", marginRight: "10px", marginTop: "-5px" }}
-                  roundedCircle
-                />
+                {image && (
+                  <Image
+                    src={image}
+                    alt="uploader"
+                    style={{ width: "32px", marginRight: "10px", marginTop: "-5px" }}
+                    roundedCircle
+                  />
+                )}
                 <p className="mb-0">{name}</p>
               </div>
               <hr />
               <div className="d-flex align-items-center mt-2">
-                
                 <div className="d-flex justify-content-start align-items-center">
-                  <p>
-                    <Image
-                      src={image}
-                      alt="uploader"
-                      style={{ width: "32px", marginRight: "10px", marginTop: "-5px" }} // Adjusted margin-top
-                      roundedCircle
-                    />
-                  </p>
-                  <p className="mb-0">{name} {post.description}</p>
+                  {image && (
+                    <p>
+                      <Image
+                        src={image}
+                        alt="uploader"
+                        style={{ width: "32px", marginRight: "10px", marginTop: "-5px" }}
+                        roundedCircle
+                      />
+                    </p>
+                  )}
+                  <p className="mb-0">{name} {post?.description}</p>
                 </div>
               </div>
             </div>
             <ListGroup className="mb-3" style={{ border: "none" }}>
-              {post.comments.map((comment, index) => (
+              {post?.comments.map((comment, index) => (
                 <ListGroup.Item
                   key={index}
                   style={{
@@ -63,7 +75,13 @@ const PostDetailModal = ({ show, handleClose, post }) => {
                     alignItems: "center"
                   }}
                 >
-                  <span style={{ marginLeft: "42px" }}>{comment}</span>
+                  <Image
+                    src={comment.image || "/default-commenter-image.png"}
+                    alt="commenter"
+                    style={{ width: "32px", marginRight: "10px", marginTop: "-5px" }}
+                    roundedCircle
+                  />
+                  <span>{comment.text}</span>
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -74,11 +92,9 @@ const PostDetailModal = ({ show, handleClose, post }) => {
                   placeholder="Add a comment..."
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit" className="mt-3">
-                Post Comment
-              </Button>
             </Form>
           </Col>
         </Row>
@@ -88,3 +104,4 @@ const PostDetailModal = ({ show, handleClose, post }) => {
 };
 
 export default PostDetailModal;
+
