@@ -13,7 +13,6 @@ export default function IconButton({ isTop, isBottom, className, onClick, childr
     <Button variant={margin} style={{ marginBottom: "7px" }} onClick={onClick}>
        {children ? children : <i className={className} style={{ fontSize: "24px" }}></i>}
       
-      {/* <i className={className} style={{ fontSize: "24px" }}>*/}
     </Button>
   );
 }
